@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find the best deal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <a href="https://imgbb.com/"><img src="https://i.ibb.co/dgxBjZ7/logo.png" alt="logo" class="logo" border="0"></a>
+        <h1>CompareCart.tech</h1>
+        <input type="text" placeholder="Search for products...">
+    </header>
+    <div class="comparison-container">
+        <h2>Best Deal for <span id="product-name"></span></h2>
+        <div id="price-comparison">
+            <!-- details yaha ayegi , product description , sabse last dalna hai  -->
+        </div>
+    </div>
+    <footer>
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="https://www.instagram.com/comparecart.tech" target="_blank">Contact Us</a>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('product');
+            const productName = urlParams.get('name');
+            document.getElementById('product-name').textContent = productName;
+
+            // manually dala hai products , api ane tak
+            const products = {
+                '1': [
+                    { store: 'Amazon', price: '₹359', link: 'https://amzn.to/4cJbGQQ', image: 'images/cleanser.png' },
+                    { store: 'Flipkart', price: '₹999', link: 'https://www.flipkart.com/example1', image: 'images/cleanser.png' }
+                ],
+                '2': [
+                    { store: 'Amazon', price: '₹889', link: 'https://amzn.to/3LByoON', image: 'images/controller.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example2', image: 'images/controller.png' }
+                ],
+                '3': [
+                    { store: 'Amazon', price: '₹319', link: 'https://amzn.to/3Lv7zfj', image: 'images/hairspray.png' },
+                    { store: 'Flipkart', price: '₹1,299', link: 'https://www.flipkart.com/example3', image: 'images/hairspray.png' }
+                ],
+                '13': [
+                    { store: 'Amazon', price: '₹1,28,200', link: 'https://amzn.to/3y7lhlx', image: 'images/IPhoen-14-Pro.png' },
+                    { store: 'Flipkart', price: '₹74,999', link: 'https://www.flipkart.com/example4', image: 'images/IPhoen-14-Pro.png' }
+                ],
+                '4': [
+                    { store: 'Amazon', price: '₹66,990', link: 'https://amzn.to/3YaXgVm', image: 'images/laptop.png' },
+                    { store: 'Flipkart', price: '₹60,999', link: 'https://www.flipkart.com/example5', image: 'images/laptop.png' }
+                ],
+                '5': [
+                    { store: 'Amazon', price: '₹1099', link: 'https://amzn.to/3YceBgp', image: 'images/shoes.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example6', image: 'images/shoes.png' }
+                ],
+                '6': [
+                    { store: 'Amazon', price: '₹44,900', link: 'https://amzn.to/3yhngUe', image: 'images/watch.png' },
+                    { store: 'Flipkart', price: '₹15,999', link: 'https://www.flipkart.com/example7', image: 'images/watch.png' }
+                ],
+                '16': [
+                    { store: 'Amazon', price: '₹199', link: 'https://amzn.to/4cJjzGb', image: 'images/gym.png' },
+                    { store: 'Flipkart', price: '₹15,999', link: 'https://www.flipkart.com/example8', image: 'images/gym.png' }
+                ],
+                '7': [
+                    { store: 'Amazon', price: '₹749', link: 'https://amzn.to/3xT4J0F', image: 'images/dress.jpg' },
+                    { store: 'Flipkart', price: '₹999', link: 'https://www.flipkart.com/example9', image: 'images/dress.jpg' }
+                ],
+                '8': [
+                    { store: 'Amazon', price: '₹599', link: 'https://amzn.to/3W5jxkI', image: 'images/dress1.jpg' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example10', image: 'images/dress1.jpg' }
+                ],
+                '9': [
+                    { store: 'Amazon', price: '₹799', link: 'https://amzn.to/4bWX9jg', image: 'images/dress2.jpg' },
+                    { store: 'Flipkart', price: '₹1,299', link: 'https://www.flipkart.com/example11', image: 'images/dress2.jpg' }
+                ],
+                '15': [
+                    { store: 'Amazon', price: '₹478', link: 'https://amzn.to/46eXOLR', image: 'images/dress3.jpg' },
+                    { store: 'Flipkart', price: '₹74,999', link: 'https://www.flipkart.com/example12', image: 'images/dress3.jpg' }
+                ],
+                '10': [
+                    { store: 'Amazon', price: '₹499', link: 'https://amzn.to/3zRaX1s', image: 'images/clothes.jpg' },
+                    { store: 'Flipkart', price: '₹60,999', link: 'https://www.flipkart.com/example13', image: 'images/clothes.jpg' }
+                ],
+                '11': [
+                    { store: 'Amazon', price: '₹799', link: 'https://amzn.to/3SgsrdT', image: 'images/jeans.jpg' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/jeans.jpg' }
+                ],
+                '12': [
+                    { store: 'Amazon', price: '₹259', link: 'https://amzn.to/3YaUUWg', image: 'images/tshirt.jpg' },
+                    { store: 'Flipkart', price: '₹15,999', link: 'https://www.flipkart.com/example15', image: 'images/tshirt.jpg' }
+                ],
+                '14': [
+                    { store: 'Amazon', price: '₹499', link: 'https://amzn.to/3SitYQV', image: 'images/shorts.jpg' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/shorts.jpg' }
+                ],
+                '18': [
+                    { store: 'Amazon', price: '₹19,999', link: 'https://amzn.to/4f9ES5d', image: 'images/mobile.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/mobile.png' }
+                ],
+                '17': [
+                    { store: 'Amazon', price: '₹1,598', link: 'https://amzn.to/4bOWh01', image: 'images/airpods.jpg' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/airpods.jpg' }
+                ],
+                '19': [
+                    { store: 'Amazon', price: '₹54,990', link: 'https://amzn.to/4cVTdAI', image: 'images/ps5.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/ps5.png' }
+                ],
+                '20': [
+                    { store: 'Amazon', price: '₹99', link: 'https://amzn.to/3WB63Ph', image: 'images/facewash.png' },
+                    { store: 'Flipkart', price: '₹120', link: 'https://www.flipkart.com/example14', image: 'images/facewash.png' }
+                ],
+                '21': [
+                    { store: 'Amazon', price: '₹1,298', link: 'https://amzn.to/46hFrFX', image: 'images/earbands.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/earbands.png' }
+                ],
+                '22': [
+                    { store: 'Amazon', price: '₹29,999', link: 'https://amzn.to/3WpfT5w', image: 'images/rtx.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/rtx.png' }
+                ],
+                '23': [
+                    { store: 'Amazon', price: '₹299', link: 'https://amzn.to/3yh4RHi', image: 'images/mouse.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/mouse.png' }
+                ],
+                '24': [
+                    { store: 'Amazon', price: '₹1,41,490', link: 'https://amzn.to/4fnMVM0', image: 'images/camera.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/camera.png' }
+                ],
+                '25': [
+                    { store: 'Amazon', price: '₹1,699', link: 'https://amzn.to/3ykgddB', image: 'images/sandisk.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/sandisk.png' }
+                ],
+                '26': [
+                    { store: 'Amazon', price: '₹4,699', link: 'https://amzn.to/3LI9hdi', image: 'images/cctv.jpg' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/cctv.jpg' }
+                ],
+                '27': [
+                    { store: 'Amazon', price: '₹555', link: 'https://amzn.to/3YlHd6X', image: 'images/adapter.jpg' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/adapter.jpg' }
+                ],
+                '28': [
+                    { store: 'Amazon', price: '₹4,498', link: 'https://amzn.to/3WlPCF4', image: 'images/headphone.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/headphone.png' }
+                ],
+                '29': [
+                    { store: 'Amazon', price: '₹899', link: 'https://amzn.to/4df4EmE', image: 'images/minimalist.jpg' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/minimalist.jpg' }
+                ],
+                '30': [
+                    { store: 'Amazon', price: '₹2,303', link: 'https://amzn.to/4c5a6aV', image: 'images/protouch.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/protouch.png' }
+                ],
+                '31': [
+                    { store: 'Amazon', price: '₹2,790', link: 'https://amzn.to/3WGocLm', image: 'images/bag.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/bag.png' }
+                ],
+                '32': [
+                    { store: 'Amazon', price: '₹390', link: 'https://amzn.to/4cZy9cH', image: 'images/shoecleaner.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/shoecleaner.png' }
+                ],
+                '33': [
+                    { store: 'Amazon', price: '₹5,19,990', link: 'https://amzn.to/3SsZhZb', image: 'images/laptop1.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/laptop1.png' }
+                ],
+                '34': [
+                    { store: 'Amazon', price: '₹68,790', link: 'https://amzn.to/4bZKfRD', image: 'images/laptop2.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/laptop2.png' }
+                ],
+                '35': [
+                    { store: 'Amazon', price: '₹899', link: 'https://amzn.to/3A3VPxV', image: 'images/necklace.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/necklace.png' }
+                ],
+                '36': [
+                    { store: 'Amazon', price: '₹1,214', link: 'https://amzn.to/4fnCMyQ', image: 'images/sandals.png' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/sandals.png' }
+                ],
+
+                '37': [
+                    { store: 'Amazon', price: '₹307', link: 'https://amzn.to/3AZZM77', image: 'images/you can win book.jpg' },
+                    { store: 'Flipkart', price: '₹307', link: 'https://www.flipkart.com/example14', image: 'images/you can win book.jpg' }
+                ],
+                '38': [
+                    { store: 'Amazon', price: '₹399', link: 'https://amzn.to/3XGVA55', image: 'images/business school book.jpg' },
+                    { store: 'Flipkart', price: '₹399', link: 'https://www.flipkart.com/example14', image: 'images/business school book.jpg' }
+                ],
+                '39': [
+                    { store: 'Amazon', price: '₹163', link: 'https://amzn.to/3XsE9Ef', image: 'images/question are the answers book.jpg' },
+                    { store: 'Flipkart', price: '₹163', link: 'https://www.flipkart.com/example14', image: 'images/question are the answers book.jpg' }
+                ],
+                '40': [
+                    { store: 'Amazon', price: '₹1,214', link: 'https://amzn.to/3XhAo4c', image: 'images/screw.jpg' },
+                    { store: 'Flipkart', price: '₹3,999', link: 'https://www.flipkart.com/example14', image: 'images/screw.jpg' }
+                ]
+                
+
+
+            };  
+
+
+            const productPrices = products[productId];
+            const comparisonContainer = document.getElementById('price-comparison');
+            comparisonContainer.innerHTML = ''; // pehle ka data nikal denga
+
+            if (productPrices) {
+                productPrices.forEach(price => {
+                    const priceElement = document.createElement('div');
+                    priceElement.classList.add('price-column');
+                    priceElement.innerHTML = `
+                        <img src="${price.image}" alt="${price.store}">
+                        <p><strong>${price.store}:</strong> ${price.price}</p>
+                        <a href="${price.link}" target="_blank">Buy Now</a>
+                    `;
+                    comparisonContainer.appendChild(priceElement);
+                });
+            } else {
+                comparisonContainer.innerHTML = '<p>Price comparison data not available.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
